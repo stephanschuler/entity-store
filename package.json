@@ -1,0 +1,7 @@
+{
+  "name": "@stephanschuler/entity-store",
+  "version": "0.0.1",
+  "description": "Distribute rich domain models across stencil JS applications, based on @stencil/store.",
+  "author": "",
+  "license": "ISC"
+}
