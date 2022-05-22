@@ -6,7 +6,8 @@
   "types": "./dist/types/components.d.ts",
   "scripts": {
     "test": "exit 0",
-    "build": "stencil build"
+    "build": "stencil build",
+    "postbuild": "cp package.json dist/package.json"
   },
   "publishConfig": {
     "@stephanschuler:registry": "https://npm.pkg.github.com"
