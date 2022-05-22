@@ -2,6 +2,24 @@
   "name": "@stephanschuler/entity-store",
   "version": "0.0.1",
   "description": "Distribute rich domain models across stencil JS applications, based on @stencil/store.",
+  "main": "dist/index.js",
+  "types": "./dist/types/components.d.ts",
+  "scripts": {
+    "test": "exit 0",
+    "build": "stencil build"
+  },
+  "publishConfig": {
+    "@stephanschuler:registry": "https://npm.pkg.github.com"
+  },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@stencil/core": "^2.15",
+    "@stencil/store": "^1.5",
+    "rxjs": "^7.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stephanschuler/entity-store.git"
+  }
 }
