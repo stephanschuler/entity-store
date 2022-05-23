@@ -11,7 +11,7 @@ interface State {
 class Store {
 
     private readonly store: ObservableMap<State>;
-    private subject: BehaviorSubject<Row[]>;
+    private readonly subject: BehaviorSubject<Row[]>;
     private storage: Persistence = new NoopPersistence();
 
     set persistence(storage: Persistence) {

@@ -1,7 +1,9 @@
 import { Persistence } from "./persistence";
 
 export class LocalStoragePersistence implements Persistence {
-    constructor(private slotName: '@stephanschuler/entity-store') {
+    constructor(
+        private readonly slotName: '@stephanschuler/entity-store'
+    ) {
     }
 
     persist(rows) {

@@ -4,7 +4,7 @@ export interface RegisteredTable {
 }
 
 class RegisteredTables {
-    private registeredTables: RegisteredTable[] = [];
+    private readonly registeredTables: RegisteredTable[] = [];
 
     public registerEntityType(registeredTable: RegisteredTable) {
         this.registeredTables.push(registeredTable);
