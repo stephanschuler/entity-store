@@ -1,7 +1,7 @@
 import { createStore } from "@stencil/store";
 import { Row } from "./store/row";
 import { Schema as SchemaBase } from "./store/schema";
-import { list } from "./store/list";
+import { store } from "./store/store";
 import { objectIds } from "./store/object-ids";
 import { registeredTables } from "./store/registered-tables";
 
@@ -71,7 +71,7 @@ export abstract class Entity<Schema extends SchemaBase> {
         };
 
         if (replaceOrCreate === 'replace') {
-            list.rows = list.rows.map(existingRow => {
+            store.rows = store.rows.map(existingRow => {
                 const isDelinquent = (
                     existingRow.objectTableName === objectTableName &&
                     existingRow.objectId === this.objectId
@@ -80,13 +80,13 @@ export abstract class Entity<Schema extends SchemaBase> {
             });
 
         } else if (replaceOrCreate === 'create') {
-            list.rows = [...list.rows, newRow];
+            store.rows = [...store.rows, newRow];
 
         }
     }
 
     public deleteEntity(): void {
-        list.rows = list.rows.filter(row => {
+        store.rows = store.rows.filter(row => {
             return row.objectId !== this.objectId;
         });
         this.objectId = 0;

@@ -3,4 +3,4 @@ export { Repository } from './repository';
 export { Persistence } from './store/persistence/persistence';
 export { LocalStoragePersistence } from './store/persistence/local-storage-persistence';
 export { NoopPersistence } from './store/persistence/noop-persistence';
-export { list } from './store/list';
+export { store } from './store/store';

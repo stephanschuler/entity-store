@@ -8,7 +8,7 @@ interface State {
     data: Row[];
 }
 
-class List {
+class Store {
 
     private storage: Persistence = new NoopPersistence();
     private subject: BehaviorSubject<Row[]>;
@@ -52,4 +52,4 @@ class List {
     }
 }
 
-export const list = new List();
+export const store = new Store();

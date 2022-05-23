@@ -1,4 +1,4 @@
-import { list } from "./store/list";
+import { store } from "./store/store";
 import { Row } from "./store/row";
 import { registeredTables } from "./store/registered-tables";
 import { distinctUntilChanged, map, Observable } from "rxjs";
@@ -48,7 +48,7 @@ export function Repository<OtherConstructor extends Constructor, ActualEntity = 
                 }
             );
 
-            return list
+            return store
                 .list$
                 .pipe(
                     removeOtherEntityTypesFromCollection,
