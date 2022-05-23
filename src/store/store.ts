@@ -1,4 +1,4 @@
-import { createStore } from "@stencil/store";
+import { createStore, ObservableMap } from "@stencil/store";
 import { BehaviorSubject } from "rxjs";
 import { Row } from "./row";
 import { Persistence } from "./persistence/persistence";
@@ -10,14 +10,14 @@ interface State {
 
 class Store {
 
-    private storage: Persistence = new NoopPersistence();
+    private readonly store: ObservableMap<State>;
     private subject: BehaviorSubject<Row[]>;
-    private state: State;
+    private storage: Persistence = new NoopPersistence();
 
     set persistence(storage: Persistence) {
         this.storage = storage;
         this.storage.retrieve((rows) => {
-            this.state.data = rows;
+            this.store.set('data', rows);
         });
     }
 
@@ -25,12 +25,9 @@ class Store {
         const defaultState: { data: Row[] } = {
             data: []
         };
-        const {state, onChange} = createStore(defaultState);
-
-        this.state = state;
-        this.subject = new BehaviorSubject<Row[]>(state.data);
-
-        onChange('data', (data: Row[]) => {
+        this.store = createStore(defaultState);
+        this.subject = new BehaviorSubject<Row[]>(this.store.state.data);
+        this.store.onChange('data', (data: Row[]) => {
             this.storage.persist(data);
             this.subject.next(data);
         });
@@ -42,13 +39,13 @@ class Store {
     }
 
     get rows(): Row[] {
-        const rows = this.state.data;
+        const rows = this.store.get('data');
         Object.seal(rows);
         return rows;
     }
 
     set rows(rows: Row[]) {
-        this.state.data = rows;
+        this.store.set('data', rows);
     }
 }
 
