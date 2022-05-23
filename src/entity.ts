@@ -53,14 +53,14 @@ export abstract class Entity<Schema extends SchemaBase> {
     }
 
     public saveEntity(): void {
-        const replaceOrCreate: 'create' | 'replace' = this.objectId === 0 ? 'create' : 'replace';
-        if (replaceOrCreate === 'create') {
-            this.objectId = objectIds.next;
-        }
-
         Object.assign(this.source, {...this.transient});
         this.cleanOrDirtyOrNew = 'clean';
 
+        if (this.objectId !== 0) {
+            return;
+        }
+
+        this.objectId = objectIds.next;
         const constructor = this.constructor;
         const objectTableName = Entity.findObjectTableNameForEntityConstructor(constructor);
 
@@ -70,19 +70,7 @@ export abstract class Entity<Schema extends SchemaBase> {
             objectId: this.objectId
         };
 
-        if (replaceOrCreate === 'replace') {
-            store.rows = store.rows.map(existingRow => {
-                const isDelinquent = (
-                    existingRow.objectTableName === objectTableName &&
-                    existingRow.objectId === this.objectId
-                );
-                return isDelinquent ? newRow : existingRow;
-            });
-
-        } else if (replaceOrCreate === 'create') {
-            store.rows = [...store.rows, newRow];
-
-        }
+        store.rows = [...store.rows, newRow];
     }
 
     public deleteEntity(): void {
