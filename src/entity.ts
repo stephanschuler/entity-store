@@ -5,16 +5,28 @@ import { store } from "./store/store";
 import { objectIds } from "./store/object-ids";
 import { registeredTables } from "./store/registered-tables";
 
+/**
+ * Every domain class needs to extend the Entity class in order to benefit from on-change rendering and localstore
+ * persistence.
+ */
 export abstract class Entity<Schema extends SchemaBase> {
     private objectId: number = 0;
     private cleanOrDirtyOrNew: 'new' | 'clean' | 'dirty' = 'new';
     private readonly source: Schema;
     private readonly transient: Schema;
 
+    /**
+     * An entity object can be "new" when it has never been saved, yet.
+     * An entity object can be "clean" when its state matches the persisted one.
+     * An entity object can be "dirty" when its state differs from the persisted one.
+     */
     get isEntityCleanOrDirtyOrNew() {
         return this.cleanOrDirtyOrNew;
     }
 
+    /**
+     * The base Entity class requires the source object, but extending domain classes can of course provide defaults.
+     */
     constructor(source: Schema) {
         this.source = createStore(source).state;
         this.transient = createStore(source).state;
@@ -73,6 +85,9 @@ export abstract class Entity<Schema extends SchemaBase> {
         store.rows = [...store.rows, newRow];
     }
 
+    /**
+     * Command an entity to remove itself from persistence.
+     */
     public deleteEntity(): void {
         store.rows = store.rows.filter(row => {
             return row.objectId !== this.objectId;
@@ -81,11 +96,22 @@ export abstract class Entity<Schema extends SchemaBase> {
         this.cleanOrDirtyOrNew = 'new';
     }
 
+    /**
+     * Reset the current state to the one currently saved on persistence and mark this entity "clean".
+     * In case the entity has never been saved, yet, the resulting state will be named "new" and match the classes
+     * default.
+     */
     public resetEntity(): void {
         Object.assign(this.transient, {...this.source});
         this.cleanOrDirtyOrNew = this.objectId === 0 ? 'new' : 'clean';
     }
 
+    /**
+     * Map an entity class to a stringy identifier in order for serialization to and rehydration from localstore.
+     *
+     * @param entityConstructor
+     * @param objectTableName
+     */
     public static registerEntityType<ChildTable = typeof Entity>(entityConstructor: ChildTable, objectTableName: string): void {
         registeredTables.registerEntityType({
             entityConstructor: entityConstructor,

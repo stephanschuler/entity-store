@@ -9,10 +9,14 @@ type Constructor = new (...args: any[]) => {};
 export function Repository<OtherConstructor extends Constructor, ActualEntity = InstanceType<OtherConstructor>>(entityConstructor: OtherConstructor) {
     return new class Repository {
 
+        /** @internal */
         public get objectTableName(): string {
             return registeredTables.findObjectTableNameForEntityConstructor(entityConstructor);
         }
 
+        /**
+         * Register to be notified when new entities are created of existing ones are deleted.
+         */
         public get updates$(): Observable<ActualEntity[]> {
 
             const constructor: OtherConstructor = entityConstructor;

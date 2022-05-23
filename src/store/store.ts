@@ -8,12 +8,20 @@ interface State {
     data: Row[];
 }
 
+/**
+ * The Store is the core feature, where every entity ultimately is stored.
+ */
 class Store {
 
     private readonly store: ObservableMap<State>;
     private readonly subject: BehaviorSubject<Row[]>;
     private storage: Persistence = new NoopPersistence();
 
+    /**
+     * Set a Persistence object to store entities in e.g. localstore.
+     *
+     * @param storage
+     */
     set persistence(storage: Persistence) {
         this.storage = storage;
         this.storage.retrieve((rows) => {
