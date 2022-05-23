@@ -16,7 +16,7 @@
     "@stephanschuler:registry": "https://npm.pkg.github.com"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@stencil/core": "^2.15",
     "@stencil/store": "^1.5",
