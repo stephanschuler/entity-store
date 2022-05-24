@@ -1,6 +1,6 @@
 {
   "name": "@stephanschuler/entity-store",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Distribute rich domain models across stencil JS applications, based on @stencil/store.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
