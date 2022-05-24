@@ -10,7 +10,7 @@
     "build": "rm -rf dist && tsc -p . && npm run rollup",
     "rollup": "rollup -c rollup.config.js",
     "version": "npm run build",
-    "postbuild": "cp package.json dist/package.json"
+    "postbuild": "cp package.json dist/package.json && cp README.md dist/README.md"
   },
   "publishConfig": {
     "@stephanschuler:registry": "https://npm.pkg.github.com"
